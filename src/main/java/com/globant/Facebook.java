@@ -1,4 +1,4 @@
-package com.globant.facebook;
+package com.globant;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,8 +11,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HomePage {
+public class Facebook {
     public static void main(String[] args) {
+        // PARAMETERS, use your credentials
+        String email = "myuser@gmail.com";
+        String password = "mypass123";
+
         System.setProperty("webdriver.chrome.driver", "resources/chromedriver.exe");
         Map<String, Object> prefs = new HashMap<String, Object>();
         //add key and value to map as follow to switch off browser notification
@@ -26,14 +30,19 @@ public class HomePage {
         driver.get("http://facebook.com");
         driver.manage().window().maximize();
 
-        // FIRST LOGIN IF NOT LOGIN
-        // WebElement emailInput = driver.findElement(By.id("email"));
-        // WebElement passwordInput = driver.findElement(By.id("pass"));
-        // WebElement loginButton = driver.findElement(By.cssSelector("button"));
-        // emailInput.sendKeys("myuser@gmail.com");
-        // passwordInput.sendKeys("mypasswrod");
-        // loginButton.click();
+        // 1. LOGIN
+        WebElement emailInput = driver.findElement(By.id("email"));
+        WebElement passwordInput = driver.findElement(By.id("pass"));
+        WebElement loginButton = driver.findElement(By.cssSelector("button"));
+        emailInput.sendKeys(email);
+        passwordInput.sendKeys(password);
+        loginButton.click();
+        
+        // 2. MY PROFILE
+        WebElement myProfile = driver.findElement(By.cssSelector("[href='/me/']"));
+        myProfile.click();
 
+        // 3. LOGOUT
         WebElement menu = driver.findElement(By.cssSelector("[aria-label='Cuenta']"));
         menu.click();
         WebDriverWait wait = new WebDriverWait(driver, 20);
